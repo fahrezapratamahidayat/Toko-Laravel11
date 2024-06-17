@@ -71,6 +71,7 @@ class ProductController extends Controller
 
         Product::create($data);
         return redirect('/products');
+
     }
 
     /**
@@ -78,7 +79,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $product = Product::find($product->id);
+        return view("products.product-detail", compact("product"));
     }
 
     /**
@@ -86,7 +88,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+
     }
 
     /**
