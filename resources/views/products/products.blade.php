@@ -1,24 +1,24 @@
 <x-app-layout>
-    <div class="grid grid-cols-1 gap-6 p-4 mt-20 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+    <div class="grid grid-cols-1 gap-6 p-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
         @foreach ($products as $product)
-                <div
-                    class="flex overflow-hidden flex-col w-full rounded-lg shadow-lg transition-shadow duration-300 hover:shadow-xl">
+            <div class="w-72 bg-white rounded-xl shadow-md duration-500 hover:scale-105 hover:shadow-xl">
+                <a href="/product/{{ $product->slug}}">
                     <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}"
-                        class="object-cover w-full h-48">
-                    <div class="p-4">
-                        <h1 class="text-xl font-bold">{{ $product->name }}</h1>
-                        <p class="text-sm">{{ $product->description }}</p>
-                        <span class="text-sm">Stock: {{ $product->stock }}</span>
-                        @php
-                            $formattedPrice = number_format($product->price, 0, ',', '.');
-                        @endphp
-                        <span class="text-lg font-semibold">Rp {{ $formattedPrice }}</span>
-                        <a href="/product/{{$product->slug}}"
-                            class="inline-block mt-2 text-blue-500 transition-colors duration-200 hover:text-blue-600">
-                            Lihat Details
-                        </a>
+                        class="object-cover w-full h-48 rounded-t-md">
+                    <div class="px-4 py-3 w-72">
+                        <span class="mr-3 text-xs text-gray-400 uppercase">{{ $product->category->name }}</span>
+                        <p class="block text-lg font-bold text-black capitalize truncate">{{ $product->name }}</p>
+                        <div class="flex items-center">
+                            <p class="my-3 text-lg font-semibold text-black cursor-auto">Rp {{ $product->price }}</p>
+                            <del>
+                                <p class="ml-2 text-sm text-gray-600 cursor-auto">Rp {{ $product->price }}</p>
+                            </del>
+                            <div class="ml-auto">
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </a>
+            </div>
         @endforeach
     </div>
 </x-app-layout>
