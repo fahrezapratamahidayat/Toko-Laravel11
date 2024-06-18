@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="grid grid-cols-1 gap-6 p-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+    <div class="grid grid-cols-1 gap-6 p-4 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
         @foreach ($products as $product)
             <div class="w-72 bg-white rounded-xl shadow-md duration-500 hover:scale-105 hover:shadow-xl">
                 <a href="/product/{{ $product->slug}}">
