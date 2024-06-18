@@ -2,7 +2,7 @@
 @section('title', 'Product Store')
 @section('content')
 <div class="mx-6">
-    <div class="p-5 mt-5 rounded-lg shadow-lg">
+    <div class="p-5 mt-2 rounded-lg shadow-lg">
         <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-4">
