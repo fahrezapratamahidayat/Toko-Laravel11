@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ProductsDataTable;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Str;
@@ -14,8 +15,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('category')->get();
         return view("products.products", compact("products"));
+    }
+
+    public function adminIndex(ProductsDataTable $dataTable)
+    {
+        return $dataTable->render('products.admin-products');
     }
 
     /**
@@ -79,7 +85,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product = Product::find($product->id);
+        $product = Product::with('category')->find($product->id);
         return view("products.product-detail", compact("product"));
     }
 
@@ -88,7 +94,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-
+        $product = Product::find($product->id);
+        $categories = Category::all();
+        return view("products.admin-product-edit", compact(["product", "categories"]));
     }
 
     /**
