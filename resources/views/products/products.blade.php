@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="grid grid-cols-1 gap-6 p-4 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
         @foreach ($products as $product)
-            <div class="w-72 bg-white rounded-xl shadow-md duration-500 hover:scale-105 hover:shadow-xl">
+            <div class="max-w-lg bg-white rounded-xl shadow-md duration-500 hover:scale-105 hover:shadow-xl">
                 <a href="/product/{{ $product->slug}}">
                     <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}"
                         class="object-cover w-full h-48 rounded-t-md">
