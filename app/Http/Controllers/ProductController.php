@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\DataTables\ProductsDataTable;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Str;
@@ -19,9 +17,10 @@ class ProductController extends Controller
         return view("products.products", compact("products"));
     }
 
-    public function adminIndex(ProductsDataTable $dataTable)
+    public function adminIndex()
     {
-        return $dataTable->render('products.admin-products');
+        $products = Product::with('category')->get();
+        return view("products.admin-products", compact("products"));
     }
 
     /**
