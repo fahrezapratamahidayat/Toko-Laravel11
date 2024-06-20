@@ -30,8 +30,7 @@ Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name(
 Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('admin/dashboard', [ProductController::class, 'adminIndex'])->name('admin.dashboard');
     Route::get('admin/products', [ProductController::class, 'adminIndex'])->name('products.index');
-    Route::get('admin/product/create', [ProductController::class, 'create'])->name('product.create');
-    Route::post('admin/product/create', [ProductController::class, 'store'])->name('product.store');
+    Route::post('admin/products', [ProductController::class, 'store'])->name('product.store');
     Route::get('admin/product/edit/{product:id}', [ProductController::class, 'edit'])->name('product.edit');
 });
 
