@@ -1,5 +1,5 @@
-@props(['categories'])
-<div id="editProductModal" tabindex="-1" aria-hidden="true"
+@props(['categories', 'product'])
+<div id="updateProductModal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <!-- Modal content -->
@@ -11,7 +11,7 @@
                 </h3>
                 <button type="button"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-toggle="editProductModal">
+                    data-modal-toggle="updateProductModal">
                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
@@ -22,16 +22,18 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data"
+                id="updateProductForm">
                 @csrf
                 @method('PUT')
                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
                     <div>
                         <label for="name"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                        <input type="text" name="name" id="name" "
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            required="">
+                        <input type="text" name="name" id="name" class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                            focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700
+                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500
+                            dark:focus:border-primary-500" required="">
                     </div>
                     <div>
                         <label for="brand"

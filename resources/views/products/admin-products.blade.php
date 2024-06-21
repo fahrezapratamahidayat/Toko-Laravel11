@@ -36,7 +36,6 @@
                             Add product
                         </button>
                         <x-modal.create-product :categories="$categories" />
-                        <x-modal.update-product :categories="$categories" />
                         <div class="flex items-center space-x-3 w-full md:w-auto">
                             <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown"
                                 class="flex justify-center items-center px-4 py-2 w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
@@ -124,6 +123,21 @@
                         </div>
                     </div>
                 </div>
+                @if (session('success'))
+                    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000"
+                        style="position: absolute; top: 20px; right: 20px;">
+                        <div class="toast-header">
+                            <strong class="mr-auto">Notifikasi</strong>
+                            <small>Sekarang</small>
+                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="toast-body">
+                            {{ session('success') }}
+                        </div>
+                    </div>
+                @endif
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -141,6 +155,7 @@
                         </thead>
                         <tbody>
                             @foreach ($products as $product)
+                                <x-modal.update-product :categories="$categories" :product="$product" />
                                 <tr class="border-b dark:border-gray-700">
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -173,9 +188,13 @@
                                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
                                                 </li>
                                                 <li>
-                                                    <button class="edit-button" data-id="1" data-name="Product 1"
-                                                        data-brand="Brand 1" data-price="100" data-category_id="1"
-                                                        data-description="Description here">Edit</button>
+                                                    <button id="updateProductButton"
+                                                        data-modal-target="updateProductModal"
+                                                        data-modal-toggle="updateProductModal"
+                                                        class="block bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                                        type="button">
+                                                        Edit
+                                                    </button>
                                                 </li>
                                             </ul>
                                             <div class="py-1">
@@ -269,35 +288,10 @@
     </section>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const editButtons = document.querySelectorAll('.edit-button');
-            editButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    const name = this.getAttribute('data-name');
-                    const brand = this.getAttribute('data-brand');
-                    const price = this.getAttribute('data-price');
-                    const category_id = this.getAttribute('data-category_id');
-                    const description = this.getAttribute('data-description');
-
-                    document.getElementById('name').value = name;
-                    document.getElementById('brand').value = brand;
-                    document.getElementById('price').value = price;
-                    document.getElementById('category').value = category_id;
-                    document.getElementById('description').value = description;
-                    document.querySelector('#editProductModal form').setAttribute('action',
-                        '/path/to/update/' + id);
-
-                    const modal = document.getElementById('editProductModal');
-                    modal.style.display =
-                        'block';
-                });
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function(toastEl) {
+                return new bootstrap.Toast(toastEl).show();
             });
         });
-
-        function closeModal() {
-            const modal = document.getElementById('editProductModal');
-            modal.style.display =
-                'none';
-        }
     </script>
 @endsection
