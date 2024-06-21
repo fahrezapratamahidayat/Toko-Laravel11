@@ -94,9 +94,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $product = Product::find($product->id);
-        $categories = Category::all();
-        return view("products.admin-product-edit", compact(["product", "categories"]));
+        
     }
 
     /**
@@ -104,7 +102,27 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product = Product::find($product->id);
+        $validatedData = $request->validate([
+            'name' => 'required|min:3|max:255',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'category_id' => 'required|integer',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $product->update($validatedData);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = 'images/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $product->image = $profileImage;
+            $product->save();
+        }
+
+        return redirect('/admin/products')->with('success', 'Produk berhasil diperbarui');
     }
 
     /**
