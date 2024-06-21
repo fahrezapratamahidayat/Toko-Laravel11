@@ -31,7 +31,7 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('admin/dashboard', [ProductController::class, 'adminIndex'])->name('admin.dashboard');
     Route::get('admin/products', [ProductController::class, 'adminIndex'])->name('products.index');
     Route::post('admin/products', [ProductController::class, 'store'])->name('product.store');
-    Route::get('admin/product/edit/{product:id}', [ProductController::class, 'edit'])->name('product.edit');
+    Route::put('admin/products/{product}', [ProductController::class, 'update'])->name('product.update');
 });
 
 Route::middleware('auth')->group(function () {
