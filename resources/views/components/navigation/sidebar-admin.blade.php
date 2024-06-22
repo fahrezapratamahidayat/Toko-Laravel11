@@ -34,7 +34,8 @@
                     </svg>
                     Dashboard
                 </a>
-                <a class="flex gap-3 items-center px-3 py-2 {{request()->is('/admin/dashboard') ? '' : 'text-muted-foreground hover:text-accent-foreground'}}" href="#">
+                <a class="flex gap-3 items-center px-3 py-2 {{request()->is('/admin/dashboard') ? '' : 'text-muted-foreground hover:text-accent-foreground'}}"
+                    href="#">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="w-4 h-4">
@@ -45,7 +46,7 @@
                     </svg>
                     Users
                 </a>
-                <a class="flex gap-3 items-center px-3 py-2  {{request()->is('admin/product') || request()->is('admin/product/create') ? 'text-accent-foreground' : 'text-muted-foreground hover:text-accent-foreground'}}"
+                <a class="flex gap-3 items-center px-3 py-2  {{ request()->is('admin/products') || request()->is('admin/product/create') || request()->is('admin/product/*') ? 'text-accent-foreground' : 'text-muted-foreground hover:text-accent-foreground'}}"
                     href="/admin/products">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
