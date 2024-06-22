@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Str;
@@ -38,46 +39,51 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|min:3|max:255',
-            'description' => 'required',
-            'price' => 'required',
-            'category_id' => 'required',
-            'stock' => 'required|integer',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ], [
-            'name.required' => 'Nama Produk dibutuhkan',
-            'name.min' => 'Minimal 3 karakter',
-            'name.max' => 'Maksimal 150 karakter',
-            'description.required' => 'Description dibutuhkan',
-            'price.required' => 'Price dibutuhkan',
-            'category_id.required' => 'Category dibutuhkan',
-            'stock.required' => 'Stock dibutuhkan',
-            'image.required' => 'Gambar dibutuhkan',
-            'image.image' => 'File harus berupa gambar',
-            'image.mimes' => 'Gambar harus berformat: jpeg, png, jpg, gif, atau svg',
-            'image.max' => 'Ukuran gambar tidak boleh lebih dari 2048 kilobytes'
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|min:3|max:255',
+                'description' => 'required',
+                'price' => 'required',
+                'brand' => 'required',
+                'category_id' => 'required',
+                'stock' => 'required|integer',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ], [
+                'name.required' => 'Nama Produk dibutuhkan',
+                'name.min' => 'Minimal 3 karakter',
+                'name.max' => 'Maksimal 150 karakter',
+                'description.required' => 'Deskripsi dibutuhkan',
+                'price.required' => 'Harga dibutuhkan',
+                'brand.required' => 'Merek dibutuhkan',
+                'category_id.required' => 'Kategori dibutuhkan',
+                'stock.required' => 'Stok dibutuhkan',
+                'image.required' => 'Gambar dibutuhkan',
+                'image.image' => 'File harus berupa gambar',
+                'image.mimes' => 'Gambar harus berformat: jpeg, png, jpg, gif, atau svg',
+                'image.max' => 'Ukuran gambar tidak boleh lebih dari 2048 kilobytes'
+            ]);
 
-        $data = [
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'category_id' => $request->category_id,
-            'slug' => Str::lower($request->name),
-            'stock' => $request->stock,
-        ];
+            $data = [
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'category_id' => $request->category_id,
+                'slug' => Str::lower($request->name),
+                'stock' => $request->stock,
+            ];
 
-        if ($image = $request->file('image')) {
-            $destinationPath = 'images/';
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $data['image'] = "$profileImage";
+            if ($image = $request->file('image')) {
+                $destinationPath = 'images/';
+                $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+                $image->move($destinationPath, $profileImage);
+                $data['image'] = "$profileImage";
+            }
+
+            Product::create($data);
+            return redirect('admin/products')->with('success', 'Produk berhasil disimpan');
+        } catch (\Exception $e) {
+            return redirect('admin/products')->with('error', 'Terjadi kesalahan saat menyimpan produk: ' . $e->getMessage());
         }
-
-        Product::create($data);
-        return redirect('/products');
-
     }
 
     /**
@@ -94,7 +100,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        
+
     }
 
     /**
@@ -102,27 +108,33 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $product = Product::find($product->id);
-        $validatedData = $request->validate([
-            'name' => 'required|min:3|max:255',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'category_id' => 'required|integer',
-            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'name' => 'min:3|max:255',
+                'description' => 'min:3|max:255',
+                'stock' => 'integer',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ], [
+                'name.min' => 'nama produk minimal 3 karakter',
+                'name.max' => 'nama produk maksimal 150 karakter',
+                'description.min'=> 'deskripsi minimal 3 karakter',
+                'description.max'=> 'deskripsi maksimal 255 karakter',
+                'image.image' => 'File harus berupa gambar',
+                'image.mimes' => 'Gambar harus berformat: jpeg, png, jpg, gif, atau svg',
+                'image.max' => 'Ukuran gambar tidak boleh lebih dari 2048 kilobytes'
+            ]);
 
-        $product->update($validatedData);
+            if ($request->hasFile('image')) {
+                $imageName = time() . '.' . $request->image->extension();
+                $request->image->move(public_path('images'), $imageName);
+                $validatedData['image'] = $imageName;
+            }
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $destinationPath = 'images/';
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $product->image = $profileImage;
-            $product->save();
+            $product->update($validatedData);
+            return redirect('/admin/products')->with('success', 'Produk berhasil diperbarui');
+        } catch (\Exception $e) {
+            return redirect('/admin/products')->with('error', 'Terjadi kesalahan saat memperbarui produk: ' . $e->getMessage());
         }
-
-        return redirect('/admin/products')->with('success', 'Produk berhasil diperbarui');
     }
 
     /**
@@ -130,6 +142,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        try {
+            $product->delete();
+            return redirect('/admin/products')->with('success', 'Produk berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect('/admin/products')->with('error', 'Terjadi kesalahan saat menghapus produk: ' . $e->getMessage());
+        }
     }
 }
