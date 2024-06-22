@@ -23,6 +23,7 @@
             </div>
             <!-- Modal body -->
             <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
                     <div>
                         <label for="name"
@@ -42,7 +43,7 @@
                         <input type="text" name="brand" id="brand"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Product brand" required="">
-                        @error('name')
+                        @error('brand')
                             <div class="mt-2 text-sm text-red-500">
                                 {{ $message }}
                             </div>
@@ -53,17 +54,17 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
                         <input type="number" name="price" id="price"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="$2999" required="">
-                        @error('name')
+                            placeholder="harga Product" required="">
+                        @error('price')
                             <div class="mt-2 text-sm text-red-500">
                                 {{ $message }}
                             </div>
                         @enderror
                     </div>
                     <div>
-                        <label for="category"
+                        <label for="category_id"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                        <select id="category"
+                        <select id="category_id" name="category_id" value="{{ old('category_id') }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id ?? old('category_id') }}">{{ $category->name }}</option>
@@ -71,9 +72,15 @@
                         </select>
                     </div>
                     <div class="sm:col-span-2">
+                        <label for="stock" class="w-full text-sm font-medium">Stok:</label>
+                        <input type="text" id="stock" name="stock" value="{{ old('stock') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            required>
+                    </div>
+                    <div class="sm:col-span-2">
                         <label for="description"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                        <textarea id="description" rows="4"
+                        <textarea id="description" rows="4" name="description"
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Write product description here"></textarea>
                     </div>
@@ -102,7 +109,7 @@
                     </div>
                 </div>
                 <button type="submit"
-                    class="inline-flex items-center bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    class="inline-flex items-center bg-sky-500 text-white hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
