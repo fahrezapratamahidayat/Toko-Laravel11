@@ -18,10 +18,38 @@ class ProductController extends Controller
         return view("products.products", compact("products"));
     }
 
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
-        $products = Product::with('category')->paginate(10);
+        $search = $request->input('search');
+        $category = $request->input('category');
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+        $sort = $request->input('sort', 'name');
+        $order = $request->input('order', 'asc');
+
+        $query = Product::with('category');
+
+        if (!empty($search)) {
+            $query->search($search);
+        }
+
+        if (!empty($category)) {
+            $query->where('category_id', $category);
+        }
+
+        if (!empty($minPrice)) {
+            $query->where('price', '>=', $minPrice);
+        }
+
+        if (!empty($maxPrice)) {
+            $query->where('price', '<=', $maxPrice);
+        }
+
+        $query->orderBy($sort, $order);
+
+        $products = $query->paginate(10);
         $categories = Category::all();
+
         return view("products.admin-products", compact("products", "categories"));
     }
 
