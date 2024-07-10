@@ -14,7 +14,7 @@
 </head>
 
 <body class="font-sans antialiased no-underline">
-    <div class="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
+    <div class="grid min-h-screen w-full lg:grid-cols-[280px_1fr] bg-background">
         <x-navigation.sidebar-admin></x-navigation.sidebar-admin>
         <div class="flex flex-col">
             <x-navigation.header-admin></x-navigation.header-admin>
