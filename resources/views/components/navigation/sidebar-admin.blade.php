@@ -1,4 +1,4 @@
-<div class="hidden no-underline border-r lg:block">
+<div class="hidden no-underline border-r border-border bg-background lg:block">
     <div class="flex flex-col gap-2 h-full max-h-screen">
         <div class="flex h-[60px] items-center  px-6">
             <a class="flex gap-2 items-center font-semibold" href="#">
@@ -9,7 +9,7 @@
                     <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path>
                     <path d="M12 3v6"></path>
                 </svg>
-                <span class="">TOKO Luxury</span>
+                <span class="text-primary">TOKO Luxury</span>
             </a>
             <button
                 class="inline-flex justify-center items-center ml-auto w-8 h-8 text-sm font-medium whitespace-nowrap rounded-md border transition-colors ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-input bg-background hover:bg-accent hover:text-accent-foreground">
