@@ -17,11 +17,15 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@preline/overlay": "^2.3.0",
         "@preline/remove-element": "^2.3.0",
         "bootstrap": "^5.3.3",
         "dropzone": "^6.0.0-beta.2",
+        "franken-ui": "^0.0.13",
         "jquery": "^3.7.1",
         "jquery-ui": "^1.13.3",
+        "postcss-combine-duplicated-selectors": "^10.0.3",
+        "postcss-sort-media-queries": "^5.2.0",
         "preline": "^2.3.0"
     }
 }
