@@ -18,44 +18,82 @@ class ProductController extends Controller
         return view("products.products", compact("products"));
     }
 
-    public function adminIndex(Request $request)
-    {
-        $search = $request->input('search');
-        $category = $request->input('category');
-        $minPrice = $request->input('min_price');
-        $maxPrice = $request->input('max_price');
-        $sort = $request->input('sort', 'name');
-        $order = $request->input('order', 'asc');
+    // public function adminIndex(Request $request)
+    // {
+    //     $search = $request->input('search');
+    //     $category = $request->input('category');
+    //     $minPrice = $request->input('min_price');
+    //     $maxPrice = $request->input('max_price');
+    //     $sort = $request->input('sort', 'name');
+    //     $order = $request->input('order', 'asc');
 
-        $query = Product::with('category');
+    //     $query = Product::with('category');
 
-        if (!empty($search)) {
-            $query->search($search);
-        }
+    //     if (!empty($search)) {
+    //         $query->search($search);
+    //     }
 
-        if (!empty($category)) {
-            $query->where('category_id', $category);
-        }
+    //     if (!empty($category)) {
+    //         $query->where('category_id', $category);
+    //     }
 
-        if (!empty($minPrice)) {
-            $query->where('price', '>=', $minPrice);
-        }
+    //     if (!empty($minPrice)) {
+    //         $query->where('price', '>=', $minPrice);
+    //     }
 
-        if (!empty($maxPrice)) {
-            $query->where('price', '<=', $maxPrice);
-        }
+    //     if (!empty($maxPrice)) {
+    //         $query->where('price', '<=', $maxPrice);
+    //     }
 
-        $query->orderBy($sort, $order);
+    //     $query->orderBy($sort, $order);
 
-        $products = $query->paginate(10);
-        $categories = Category::all();
+    //     $query = Product::query();
 
-        return view("products.admin-products", compact("products", "categories"));
-    }
+    //     if ($request->has('category_name') && !empty($request->category_name)) {
+    //         $query->whereHas('category', function ($q) use ($request) {
+    //             $q->where('name', 'like', '%' . $request->category_name . '%');
+    //         });
+    //     }
+
+    //     $products = $query->paginate(10)->withQueryString();
+    //     $categories = Category::all();
+
+    //     $products = $query->paginate(10)->withQueryString();
+    //     $categories = Category::all();
+
+    //     return view("products.admin-products", compact("products", "categories"));
+    // }
 
     /**
      * Show the form for creating a new resource.
      */
+    public function adminIndex(Request $request)
+    {
+        // $query = Product::query();
+
+        // if ($request->has('category') && !empty($request->category)) {
+        //     $query->whereHas('category', function ($q) use ($request) {
+        //         $q->where('name', $request->category);
+        //     });
+        // }
+
+        // $products = $query->paginate(10)->withQueryString();
+        // $categories = Category::all();
+
+        // return view("products.admin-products", compact("products", "categories"));
+        $categoryName = $request->input('category');
+
+        if ($categoryName) {
+            $category = Category::where('name', $categoryName)->firstOrFail();
+            $products = $category->products()->paginate(10)->withQueryString();
+        } else {
+            $products = Product::paginate(10)->withQueryString();
+        }
+
+        $categories = Category::all();
+
+        return view("products.admin-products", compact("products", "categories"));
+    }
     public function create()
     {
         $categories = Category::all();
