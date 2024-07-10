@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->string('slug');
             $table->string('stock')->default(0);
-            $table->string('image');
+            $table->string('image')->default('20240617150012.png');
             $table->timestamps();
             $table->foreignId('category_id')->constrained(
                 table: 'categories',
