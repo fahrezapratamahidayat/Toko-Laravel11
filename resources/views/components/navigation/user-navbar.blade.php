@@ -1,12 +1,9 @@
 <nav class="antialiased ">
-    <div class="px-4 py-4 mx-auto max-w-screen-xl 2xl:px-0">
-        <div class="flex justify-between items-center">
-
+    <div class="px-4 py-1 border-b border-border ">
+        <div class="flex justify-between items-center ">
             <div class="flex items-center space-x-8">
                 <div class="shrink-0">
-
                 </div>
-
                 <ul class="hidden gap-6 justify-start items-center py-3 lg:flex md:gap-8 sm:justify-center">
                     <li>
                         <a href="/"
@@ -18,7 +15,7 @@
                     </li>
                 </ul>
             </div>
-
+            <x-theme-toggel />
             @auth
                 <div class="flex items-center lg:space-x-2">
                     <button id="myCartDropdownButton1" data-dropdown-toggle="myCartDropdown1" type="button"
@@ -118,7 +115,6 @@
                 </button>
             @endauth
         </div>
-
         <div id="ecommerce-navbar-menu-1"
             class="hidden px-4 py-3 mt-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
             <ul class="space-y-3 text-sm font-medium text-gray-900 dark:text-white">
