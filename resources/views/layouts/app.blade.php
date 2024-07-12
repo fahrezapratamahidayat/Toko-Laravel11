@@ -16,7 +16,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-background">
     @if (auth()->user()->role === 'Admin' || auth()->user()->role === 'Super Admin')
         <div class="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
             <x-navigation.sidebar-admin></x-navigation.sidebar-admin>
@@ -28,7 +28,7 @@
             </div>
         </div>
     @else
-        <div class="flex flex-col min-h-screen w-full">
+        <div class="flex flex-col min-h-screen w-full bg-background">
             <x-navigation.user-navbar />
             <main class="overflow-auto flex-1">
                 {{ $slot }}
